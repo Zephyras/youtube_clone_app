@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:youtube_clone_app/src/app.dart';
 import 'package:youtube_clone_app/src/biding/init_biding.dart';
+import 'package:youtube_clone_app/src/components/youtube_detail.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 void main() {
@@ -28,7 +29,10 @@ class MyApp extends StatelessWidget {
       ),
       initialBinding: InitBinding(),
       initialRoute: "/",
-      getPages: [GetPage(name: "/", page: () => const App())],
+      getPages: [
+        GetPage(name: "/", page: () => App()),
+        GetPage(name: "/detail/:videoId", page: () => YoutubeDetail())
+      ],
     );
   }
 }
