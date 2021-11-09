@@ -1,24 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:youtube_clone_app/controller/app_controller.dart';
+import 'package:youtube_clone_app/src/pages/explore.dart';
+import 'package:youtube_clone_app/src/pages/home.dart';
+import 'package:youtube_clone_app/src/pages/library.dart';
+import 'package:youtube_clone_app/src/pages/subscribe.dart';
 
-class App extends StatelessWidget {
+import 'controller/app_controller.dart';
+
+enum RouteName { Home, Explore, Add, Subs, Library }
+
+class App extends GetView<AppController> {
   const App({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      body: Obx(() {
+        // 값을 받아는 상황에따라서 분기시켜주기
+        switch (RouteName.values[controller.currentIndex.value]) {
+          case RouteName.Home:
+            return Home();
+            break;
+          case RouteName.Explore:
+            return Explore();
+            break;
+          case RouteName.Add:
+            // TODO:   bottomSheet 나오게 하기.
+            break;
+          case RouteName.Subs:
+            return Subscribe();
+            break;
+          case RouteName.Library:
+            return Library();
+            break;
+        }
+        return Container();
+      }),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          currentIndex: Get.put(AppController().currentIndex.value),
+          currentIndex: controller.currentIndex.value,
           showSelectedLabels: true,
           selectedItemColor: Colors.black,
           onTap: (index) {
             //AppController.to.changePageIndex(index);
-            Get.put(AppController().changePageIndex(index));
+            controller.changePageIndex(index);
           },
           items: [
             BottomNavigationBarItem(
