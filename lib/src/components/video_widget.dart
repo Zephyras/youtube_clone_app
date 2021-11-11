@@ -1,12 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:youtube_clone_app/src/controller/video_controller.dart';
+import 'package:youtube_clone_app/src/models/video.dart';
 
-class VideoWidget extends StatelessWidget {
-  const VideoWidget({Key key}) : super(key: key);
+class VideoWidget extends StatefulWidget {
+  final Video video;
+  const VideoWidget({
+    Key key,
+    this.video,
+  }) : super(key: key);
+
+  @override
+  State<VideoWidget> createState() => _VideoWidgetState();
+}
+
+class _VideoWidgetState extends State<VideoWidget> {
+  VideoController _videoController;
+
+  @override
+  void initState() {
+    //tag 고유의 값을 지정해줄수 있다. videoId로 개별적 관리를 할 수 있다.
+    Get.put(VideoController(video: widget.video), tag: widget.video.id.videoId);
+    super.initState();
+  }
 
   Widget _thumbnail() {
     return Container(
       height: 250,
       color: Colors.grey.withOpacity(0.5),
+      child: Image.network(
+        widget.video.snippet.thumbnails.medium.url,
+        fit: BoxFit.fitWidth,
+      ),
     );
   }
 
@@ -15,16 +41,15 @@ class VideoWidget extends StatelessWidget {
       padding: const EdgeInsets.only(left: 10, bottom: 10),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.grey.withOpacity(0.5),
-            backgroundImage: Image.network(
-                    "https://yt3.ggpht.com/ytc/AKedOLQagIEl2WOUacXZ8WlCPvApoIouP9sNGkMIDVdQ=s88-c-k-c0x00ffffff-no-rj")
-                .image,
+          Obx(
+            () => CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.grey.withOpacity(0.5),
+              backgroundImage:
+                  Image.network(_videoController.youtuberThumbnailUrl).image,
+            ),
           ),
-          SizedBox(
-            width: 15,
-          ),
+          SizedBox(width: 15),
           Expanded(
               child: Column(
             children: [
@@ -33,7 +58,7 @@ class VideoWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "개남 유튜브 다시 보기개남 유튜브 다시 보기개남 유튜브 다시 보기개남 유튜브 다시 보기개남 유튜브 다시 보기개남 유튜브 다시 보기개남 유튜브 다시 보기",
+                      widget.video.snippet.title,
                       maxLines: 2,
                     ),
                   ),
@@ -47,23 +72,27 @@ class VideoWidget extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "개발하는남자",
+                    widget.video.snippet.channelTitle.toString(),
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.black.withOpacity(0.8),
                     ),
                   ),
                   Text(" · "),
-                  Text(
-                    "조회수 1000회",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black.withOpacity(0.6),
+                  Container(
+                    child: Text(
+                      //"조회수 1000 회",
+                      "조회수 ${_videoController.statistics.value.viewCount}회",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black.withOpacity(0.6),
+                      ),
                     ),
                   ),
                   Text(" · "),
                   Text(
-                    "2021-02-13",
+                    DateFormat("yyyy-MM-dd")
+                        .format(widget.video.snippet.publishTime),
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.black.withOpacity(0.6),

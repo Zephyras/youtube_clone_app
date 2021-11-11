@@ -57,10 +57,12 @@ class App extends GetView<AppController> {
               icon: SvgPicture.asset(
                 "assets/svg/icons/compass_off.svg",
                 width: 22,
+                height: 22,
               ),
               activeIcon: SvgPicture.asset(
                 "assets/svg/icons/compass_on.svg",
                 width: 22,
+                height: 22,
               ),
               label: "탐색",
             ),
@@ -70,6 +72,7 @@ class App extends GetView<AppController> {
                 child: SvgPicture.asset(
                   "assets/svg/icons/plus.svg",
                   width: 35,
+                  height: 35,
                 ),
               ),
               label: "",
@@ -82,9 +85,7 @@ class App extends GetView<AppController> {
               label: "구독",
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                "assets/svg/icons/library_off.svg",
-              ),
+              icon: SvgPicture.asset("assets/svg/icons/library_off.svg"),
               activeIcon: SvgPicture.asset("assets/svg/icons/library_on.svg"),
               label: "보관함",
             ),
