@@ -14,17 +14,21 @@ class VideoController extends GetxController {
     Statistics loadStatistics =
         await YoutubeRepository.to.getVideoInfoById(video.id.videoId);
     statistics(loadStatistics);
-    //print(statistics);
     Youtuber loadyoutuber =
         await YoutubeRepository.to.getYoutuberInfoById(video.snippet.channelId);
     youtuber(loadyoutuber);
     super.onInit();
   }
 
-  String get viewCountString => "조회수 ${statistics.value.viewCount ?? '-'}회";
+  String get viewCountString => statistics.value.viewCount;
+  String get likeCountString => statistics.value.likeCount;
+  String get dislikeCountString => statistics.value.dislikeCount;
+  String get favoriteCountString => statistics.value.favoriteCount;
+  String get commentCountString => statistics.value.commentCount;
+  String get subscriberCountString => youtuber.value.statistics.subscriberCount;
   String get youtuberThumbnailUrl {
     if (youtuber.value.snippet == null)
-      return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlpMOPTFF4EJkBNfuxNMP_iCrdP2x7dFyFWg&usqp=CAU";
+      return "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=6&m=1223671392&s=612x612&w=0&h=NGxdexflb9EyQchqjQP0m6wYucJBYLfu46KCLNMHZYM=";
     return youtuber.value.snippet.thumbnails.medium.url;
   }
 }

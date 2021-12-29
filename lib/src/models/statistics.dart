@@ -1,11 +1,18 @@
+import 'dart:convert';
+
+Statistics statisticsFromJson(String str) =>
+    Statistics.fromJson(json.decode(str));
+
+String statisticsToJson(Statistics data) => json.encode(data.toJson());
+
 class Statistics {
   Statistics({
-    this.viewCount,
-    this.likeCount,
-    this.dislikeCount,
-    this.favoriteCount,
-    this.commentCount,
-    this.subscriberCount,
+    this.viewCount = "0",
+    this.likeCount = "0",
+    this.dislikeCount = "0",
+    this.favoriteCount = "0",
+    this.commentCount = "0",
+    this.subscriberCount = "0",
   });
 
   String viewCount;
@@ -17,11 +24,13 @@ class Statistics {
 
   factory Statistics.fromJson(Map<String, dynamic> json) => Statistics(
         viewCount: json["viewCount"],
-        likeCount: json["likeCount"],
-        dislikeCount: json["dislikeCount"],
-        favoriteCount: json["favoriteCount"],
-        commentCount: json["commentCount"],
-        subscriberCount: json["subscriberCount"],
+        likeCount: json["likeCount"] == null ? "" : json["likeCount"],
+        dislikeCount: json["dislikeCount"] == null ? "" : json["dislikeCount"],
+        favoriteCount:
+            json["favoriteCount"] == null ? "" : json["favoriteCount"],
+        commentCount: json["commentCount"] == null ? "" : json["commentCount"],
+        subscriberCount:
+            json["subscriberCount"] == null ? "" : json["subscriberCount"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -30,5 +39,6 @@ class Statistics {
         "dislikeCount": dislikeCount,
         "favoriteCount": favoriteCount,
         "commentCount": commentCount,
+        "subscriberCount": subscriberCount,
       };
 }

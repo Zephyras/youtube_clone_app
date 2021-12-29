@@ -14,17 +14,32 @@ class YoutubeRepository extends GetConnect {
     super.onInit();
   }
 
-  Future<YoutubeVideoResult> loadVideos() async {
+  saerch(String searchKeyword, String nextPageToken) async {
     String url =
-        "/youtube/v3/search?part=snippet&channelId=UCbMGBIayK26L4VaFrs5jyBw&maxResults=10&order=date&type=video&videoDefinition=high&key=AIzaSyD_M81-L7qn-TWAw8MoDyOFpuwSdg7hWOc";
+        "/youtube/v3/search?part=snippet&maxResults=10&order=date&type=video&videoDefinition=high&key=AIzaSyDaNXxR6b_Sx1j4zb1ouAa5eFl9-5IdOUs&pageToken=$nextPageToken&q=$searchKeyword";
     final response = await get(url);
     if (response.status.hasError) {
-      return Future.error(response.statusText);
+      return Future.error(response.statusText.toString());
     } else {
-      if (response.body['items'] != null && response.body["items"].length > 0) {
+      if (response.body["items"] != null && response.body["items"].length > 0) {
         return YoutubeVideoResult.fromJson(response.body);
       }
     }
+    return null;
+  }
+
+  loadVideos(String nextPageToken) async {
+    String url =
+        "/youtube/v3/search?part=snippet&channelId=UCbMGBIayK26L4VaFrs5jyBw&maxResults=10&order=date&type=video&videoDefinition=high&key=AIzaSyDaNXxR6b_Sx1j4zb1ouAa5eFl9-5IdOUs&pageToken=$nextPageToken";
+    final response = await get(url);
+    if (response.status.hasError) {
+      return Future.error(response.statusText.toString());
+    } else {
+      if (response.body["items"] != null && response.body["items"].length > 0) {
+        return YoutubeVideoResult.fromJson(response.body);
+      }
+    }
+    return null;
   }
 
   Future<Statistics> getVideoInfoById(String videoId) async {

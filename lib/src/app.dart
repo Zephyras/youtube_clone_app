@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:youtube_clone_app/src/controller/root_controller.dart';
 import 'package:youtube_clone_app/src/pages/explore.dart';
-import 'package:youtube_clone_app/src/pages/home.dart';
+import 'package:youtube_clone_app/src/pages/Home/home.dart';
 import 'package:youtube_clone_app/src/pages/library.dart';
 import 'package:youtube_clone_app/src/pages/subscribe.dart';
 
 import 'controller/app_controller.dart';
-
-enum RouteName { Home, Explore, Add, Subs, Library }
 
 class App extends GetView<AppController> {
   const App({Key key}) : super(key: key);

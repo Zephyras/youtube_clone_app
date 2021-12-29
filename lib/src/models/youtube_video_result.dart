@@ -6,13 +6,23 @@ class YoutubeVideoResult {
   String nextPageToken;
   List<Video> items;
 
-  YoutubeVideoResult(
-      {this.totalResults, this.resultsPerPage, this.nextPageToken, this.items});
-  factory YoutubeVideoResult.fromJson(Map<String, dynamic> json) =>
-      YoutubeVideoResult(
-          totalResults: json["pageInfo"]["totalResults"],
-          resultsPerPage: json['pageInfo']['resultsPerPage'],
-          nextPageToken: json['nextPageToken'] ?? "",
-          items: List<Video>.from(
-              json["items"].map((data) => Video.fromJson(data))));
+  YoutubeVideoResult({
+    this.totalResults = 0,
+    this.resultsPerPage = 0,
+    this.nextPageToken = "",
+    this.items = const [],
+  });
+
+  factory YoutubeVideoResult.fromJson(Map<String, dynamic> json) {
+    return YoutubeVideoResult(
+      totalResults: json["pageInfo"]["totalResults"],
+      resultsPerPage: json['pageInfo']['resultsPerPage'],
+      nextPageToken: json['nextPageToken'] ?? "",
+      items: List<Video>.from(
+        json["items"].map(
+          (data) => Video.fromJson(data),
+        ),
+      ).toList(),
+    );
+  }
 }
